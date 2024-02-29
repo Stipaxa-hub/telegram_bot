@@ -9,8 +9,8 @@ import java.util.Calendar;
 
 @Service
 public class DataCalculateServiceImpl implements DataCalculateService {
-    private final int DAY_IN_YEAR = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_YEAR);
-    private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    private static final int DAY_IN_YEAR = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_YEAR);
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     @Override
     public String calculatePercent() {

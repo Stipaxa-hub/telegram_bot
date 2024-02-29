@@ -49,7 +49,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botName;
     }
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(fixedRate = 30000)
     private void showMessagePercent() {
         userRepository.findAllByIsStartedIsTrue()
                 .forEach(user -> {
