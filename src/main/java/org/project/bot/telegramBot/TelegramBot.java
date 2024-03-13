@@ -10,8 +10,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.List;
-
 public class TelegramBot extends TelegramLongPollingBot {
     private static final String START_WORK_STRING = "/start";
     private static final String END_WORK_STRING = "/end";

@@ -1,5 +1,6 @@
 package org.project.bot.service.impl;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,10 +22,11 @@ class MessageBuilderServiceImplTest {
     private MessageBuilderServiceImpl messageBuilderService;
 
     @Test
+    @DisplayName("Build message test")
     void messageBuilder_returnCorrectMessage() {
-        String exceptedMessage = "100,00% of days of the year have already passed.";
+        String exceptedMessage = "100.00% of days of the year have already passed.";
 
-        when(dataCalculateService.calculatePercent(any(LocalDate.class))).thenReturn("100,00");
+        when(dataCalculateService.calculatePercent(any(LocalDate.class))).thenReturn("100.00");
 
         String actualMessage = messageBuilderService.messageBuilder();
 

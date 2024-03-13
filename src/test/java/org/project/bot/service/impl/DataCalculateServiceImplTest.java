@@ -1,8 +1,10 @@
 package org.project.bot.service.impl;
 
-import jakarta.inject.Named;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -17,46 +19,50 @@ class DataCalculateServiceImplTest {
     private DataCalculateServiceImpl dataCalculateService;
 
     @Test
-    @Named("Calculate percent for the first day in year")
+    @DisplayName("Calculate percent for the first day in year")
     void calculatePercent_firstDayInYear() {
-        LocalDate firstYearDay = LocalDate.of(LocalDate.now().getYear(), Month.JANUARY, 1);
+        LocalDate firstYearDay = LocalDate.of(2024, Month.JANUARY, 1);
 
-        String excepted = "0,27";
+        String expected = "0.27";
         String actual = dataCalculateService.calculatePercent(firstYearDay);
 
-        assertEquals(excepted, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    @Named("Calculate percent for the last day in year")
+    @DisplayName("Calculate percent for the last day in year")
     void calculatePercent_lastDayInYear() {
-        LocalDate lastYearDay = LocalDate.of(LocalDate.now().getYear(), Month.DECEMBER, 31);
+        LocalDate lastYearDay = LocalDate.of(2024, Month.DECEMBER, 31);
 
-        String excepted = "100,00";
+        String expected = "100.00";
         String actual = dataCalculateService.calculatePercent(lastYearDay);
 
-        assertEquals(excepted, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    @Named("Calculate percent for the middle day in year")
+    @DisplayName("Calculate percent for the middle day in year")
     void calculatePercent_middleDayInYear() {
-        LocalDate middleYearDay = LocalDate.of(LocalDate.now().getYear(), Month.JULY, 1);
+        LocalDate middleYearDay = LocalDate.of(2024, Month.JULY, 1);
 
-        String excepted = "50,00";
+        String expected = "50.00";
         String actual = dataCalculateService.calculatePercent(middleYearDay);
 
-        assertEquals(excepted, actual);
+        assertEquals(expected, actual);
     }
 
-    @Test
-    @Named("Calculate percent for the random day in year")
-    void calculatePercent_randomDayInYear() {
-        LocalDate day = LocalDate.of(LocalDate.now().getYear(), Month.OCTOBER, 28);
+    @ParameterizedTest
+    @CsvSource(
+            {
+                    "2024-01-01, 0.27",
+                    "2024-05-05, 34.43",
+                    "2024-10-28, 82.51"
+            }
+    )
+    @DisplayName("Calculate percent for the random day in year")
+    void calculatePercent_randomDayInYear(LocalDate date, String expectedResult) {
+        String actual = dataCalculateService.calculatePercent(date);
 
-        String excepted = "82,51";
-        String actual = dataCalculateService.calculatePercent(day);
-
-        assertEquals(excepted, actual);
+        assertEquals(expectedResult, actual);
     }
 }
