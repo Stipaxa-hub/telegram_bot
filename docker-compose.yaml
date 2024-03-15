@@ -10,12 +10,14 @@ services:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
       - POSTGRES_DB=$POSTGRES_DATABASE
     ports:
-      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_LOCAL_PORT
     healthcheck:
       test: ["CMD-SHELL", "pg_isready - U postgres"]
       interval: 30s
       timeout: 30s
       retries: 3
+    networks:
+      - network
   app:
     depends_on:
       - postgresdb
@@ -28,9 +30,14 @@ services:
       - $DEBUG_PORT:$DEBUG_PORT
     environment:
       SPRING_APPLICATION_JSON: '{
-      "spring.datasource.url" : "jdbc:postgresql://localhost:$POSTGRES_LOCAL_PORT/$POSTGRES_DATABASE",
+      "spring.datasource.url" : "jdbc:postgresql://postgresdb:$POSTGRES_LOCAL_PORT/$POSTGRES_DATABASE",
       "spring.datasource.username" : "$POSTGRES_USER",
       "spring.datasource.password" : "$POSTGRES_PASSWORD",
       "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect"
       }'
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
